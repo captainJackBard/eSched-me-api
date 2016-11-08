@@ -46,7 +46,24 @@ class ActivityController extends Controller
 
     public function store(Request $request)
     {
-        
+        $activity = new Activity();
+        $activity->user_id = $request->input('user_id');
+        $activity->title = $request->input('title');
+        $activity->desc = $request->input('desc');
+        $activity->status = $request->input('status');
+        $activity->priority = $request->input('priority');
+        $activity->start = $request->input('start');
+        $activity->end = $request->input('end');
+        if($activity->save())
+        {   
+            $resource = new Item($activity, new ActivityTransformer());
+            $data = $this->fractal->createData($resource)->toArray();
+            $response = [
+                "message" => "Activity Created",
+                "activity" => $data,
+            ];
+            return response()->json($response);
+        }
     }
 
     //

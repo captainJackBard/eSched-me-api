@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'modified';
+
     protected $fillable = [
         'id', 
         'user_id', 
