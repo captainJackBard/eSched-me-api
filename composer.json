@@ -9,7 +9,8 @@
         "laravel/lumen-framework": "5.3.*",
         "vlucas/phpdotenv": "~2.2",
         "monolog/monolog": "^1.21",
-        "league/fractal": "^0.14.0"
+        "league/fractal": "^0.14.0",
+        "spatie/laravel-fractal": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

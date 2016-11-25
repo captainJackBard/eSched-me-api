@@ -12,13 +12,14 @@ use League\Fractal\Resource\Item;
 
 class ActivityController extends Controller
 {
+    
+    protected $fractal;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    protected $fractal;
-
     public function __construct()
     {
         $this->fractal = new Manager();
@@ -39,23 +40,14 @@ class ActivityController extends Controller
 
     public function show($id) 
     {
-        $activity = Activity::find($id);
+        $activity = Activity::findOrFail($id);
         $resource = new Item($activity, new ActivityTransformer());
         return response()->json($this->fractal->createData($resource)->toArray());
     }
 
     public function store(Request $request)
     {
-        $activity = new Activity();
-        $activity->user_id = $request->input('user_id');
-        $activity->title = $request->input('title');
-        $activity->desc = $request->input('desc');
-        $activity->status = $request->input('status');
-        $activity->priority = $request->input('priority');
-        $activity->start = $request->input('start');
-        $activity->end = $request->input('end');
-        if($activity->save())
-        {   
+        if($activity = Activity::create($request->all())) {   
             $resource = new Item($activity, new ActivityTransformer());
             $data = $this->fractal->createData($resource)->toArray();
             $response = [
@@ -66,5 +58,66 @@ class ActivityController extends Controller
         }
     }
 
-    //
+    public function update(Request $request, $id)
+    {
+        $activity = Activity::findOrFail($id);
+
+        if($activity->update($request->all()))
+        {
+            $resource = new Item($activity, new ActivityTransformer());
+            $data = $this->fractal->createData($resource)->toArray();
+            $response = [
+                "message" => "Activity Updated!",
+                "activity" => $data,
+            ];
+            return response()->json($response);
+        }
+    }
+
+    public function delete($id)
+    {
+        $activity = Activity::findOrFail($id);
+
+        $resource = new Item($activity, new ActivityTransformer());
+        $data = $this->fractal->createData($resource)->toArray();
+
+        if($activity->delete()) {
+            $response = [
+                "message" => "Activity Deleted!",
+                "activity" => $data,
+            ];
+            return response()->json($response);
+        } else  {
+            $response = [
+                "message" => "Activity not Deleted!",
+                "activity" => $data,
+            ];
+            return response()->json($response);
+        }
+        
+    }
+
+    public function tag(Request $request, $id)
+    {
+        $activity = Activity::findOrFail($id);
+        $activity->users()->attach($request->user_id);
+        $data = fractal()->item($activity, new ActivityTransformer())->includeTagged()->toArray();
+        $response = [
+            "message" => "User tagged!",
+            "activity" => $data,
+        ];
+        return response()->json($response);
+    }
+
+    public function untag(Request $request, $id)
+    {
+        $activity = Activity::findOrFail($id);
+        $activity->users()->detach($request->user_id);
+        $data = fractal()->item($activity, new ActivityTransformer())->includeTagged()->toArray();
+        $response = [
+            "message" => "User untagged!",
+            "activity" => $data,
+        ];
+        return response()->json($response);
+    }
 }

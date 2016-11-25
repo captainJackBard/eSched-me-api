@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Activity extends Model
+class Module extends Model
 {
 
     const CREATED_AT = 'created';
@@ -12,9 +12,10 @@ class Activity extends Model
 
     protected $fillable = [
         'id', 
-        'user_id', 
+        'activity_id', 
         'title', 
-        'desc', 
+        'percentage',
+        'description', 
         'start', 
         'end', 
         'status', 
@@ -28,8 +29,8 @@ class Activity extends Model
         return $this->belongsToMany('\App\User', 'activity_tags', 'activity_id', 'friend_id');
     }
 
-    public function modules()
+    public function activity()
     {
-        return $this->hasMany('App\Module');
+        return $this->belongsTo('App\Activty');
     }
 }

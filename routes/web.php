@@ -21,4 +21,14 @@ $app->group(['prefix' => 'api/v1'], function($app) {
     $app->post('activity', 'ActivityController@store');
     $app->patch('activity/{id}', 'ActivityController@update');
     $app->delete('activity/{id}', 'ActivityController@delete');
+    $app->post('activity/{id}/tag', 'ActivityController@tag');
+    $app->post('activity/{id}/untag', 'ActivityController@untag');
+    
+    $app->group(['prefix' => 'module'], function($app) {
+        $app->get('/', 'ModuleController@index');
+        $app->post('/', 'ModuleController@store');
+        $app->get('/{id}', 'ModuleController@show');
+        $app->patch('/{id}', 'ModuleController@update');
+        $app->delete('/{id}', 'ModuleController@delete');
+    });
 });
