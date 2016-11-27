@@ -1,7 +1,7 @@
 <?php
 namespace App\Transformers;
 
-use App\Activity;
+use App\Module;
 use League\Fractal;
 
 class ModuleTransformer extends Fractal\TransformerAbstract
@@ -12,47 +12,36 @@ class ModuleTransformer extends Fractal\TransformerAbstract
      * @var array
      */
 	protected $availableIncludes = [
-		'user',
-		'tagged',
+		'submodules'
 	];
 
-	public function transform(Activity $activity)
+    protected $defaultIncludes = [
+        'submodules'
+    ];
+
+	public function transform(Module $module)
 	{
 		return [
-			'id' => $activity->id,
-            'title' => $activity->title,
-            'desc' => $activity->desc,
-            'status' => $activity->status,
-            'start' => $activity->start,
-            'end' => $activity->end,
-            'priority' => (int) $activity->priority,
+			'id' => $module->id,
+            'activty_id' => $module->activity_id,
+            'title' => $module->title,
+            'description' => $module->description,
+            'status' => $module->status,
+            'start' => $module->start,
+            'end' => $module->end,
+            'priority' => (int) $module->priority,
+            'percentage' => (double) $module->percentage . '%',
             'links' => [
             	'rel' => 'self',
-            	'uri' => '/activity/' . $activity->id,
+            	'uri' => '/module/' . $module->id,
             ],
 		];
 	}
 
-	/**
-     * Include User
-     *
-     * @return League\Fractal\ItemResource
-     */
-	public function includeUser(Activity $activity)
-	{
-		$user = \App\User::find($activity->user_id);
+    public function includeSubmodules(Module $module)
+    {
+        $submodules = $module->submodules;
+        return $this->collection($submodules, new SubmoduleTransformer());
+    }
 
-		return $this->item($user, new UserTransformer());
-	}
-	/**
-     * Include Tagged
-     *
-     * @return League\Fractal\ItemResource
-     */
-	public function includeTagged(Activity $activity)
-	{
-		$users = $activity->users()->get();
-
-		return $this->collection($users, new UserTransformer());
-	}
 }

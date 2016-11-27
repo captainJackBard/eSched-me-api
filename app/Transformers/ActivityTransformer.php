@@ -14,6 +14,7 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 	protected $availableIncludes = [
 		'user',
 		'tagged',
+		'modules',
 	];
 
 	public function transform(Activity $activity)
@@ -29,6 +30,7 @@ class ActivityTransformer extends Fractal\TransformerAbstract
             'links' => [
             	'rel' => 'self',
             	'uri' => '/activity/' . $activity->id,
+            	'next' => '/activity/' . ($activity->id + 1)
             ],
 		];
 	}
@@ -54,5 +56,12 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 		$users = $activity->users()->get();
 
 		return $this->collection($users, new UserTransformer());
+	}
+
+	public function includeModules(Activity $activity)
+	{
+		$modules = $activity->modules;
+
+		return $this->collection($modules, new ModuleTransformer());
 	}
 }

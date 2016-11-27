@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Module;
+use App\SubModule;
 use App\Http\Controllers\Controller;
-use App\Transformers\ModuleTransformer;
+use App\Transformers\SubmoduleTransformer;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 
-class ModuleController extends Controller
+class SubmoduleController extends Controller
 {
     
     protected $fractal;
@@ -30,70 +30,68 @@ class ModuleController extends Controller
 
     public function index() 
     {
-        $modules = Module::all();
-        $resource = new Collection($modules, new ModuleTransformer());
-        $data = $this->fractal->createData($resource)->toArray();
+        $sub = SubModule::all();
+        $data = fractal()->collection($sub, new SubmoduleTransformer())->toArray();
         return response()->json($data);
     }
 
     public function show($id) 
     {
-        $module = Module::findOrFail($id);
-        $resource = new Item($module, new ModuleTransformer);
-        $data = $this->fractal->createData($resource)->toArray();
+        $sub = SubModule::findOrFail($id);
+        $data = fractal()->item($sub, new SubmoduleTransformer())->toArray();
         return response()->json($data);
     }
 
     public function store(Request $request)
     {
         $message = "";
-        $module = null;
-        if($module = Module::create($request->all())) {
-            $message = "Module created!";
+        $submodule = null;
+        if($submodule = SubModule::create($request->all())) {
+            $message = "Submodule created!";
         } else {
-            $message = "Error Module not Created!";
+            $message = "Error Submodule not Created!";
         }
-        $data = fractal()->item($module, new ModuleTransformer())->toArray();
+        $data = fractal()->item($submodule, new SubmoduleTransformer())->toArray();
         $response = [
             "message" => $message,
-            "module" => $data
+            "submodule" => $data
         ];
         return response()->json($response);
     }
 
     public function update(Request $request, $id)
     {
-        $module = Module::findOrFail($id);
+        $submodule = SubModule::findOrFail($id);
         $message = "";
 
-        if($module->update($request->all())) {
-            $message = "Module Updated!";
+        if($submodule->update($request->all())) {
+            $message = "Submodule Updated!";
         } else {
-            $message = "Error, Module not Updated!";
+            $message = "Error, Submodule not Updated!";
         }
 
-        $data = fractal()->item($module, new ModuleTransformer())->toArray();
+        $data = fractal()->item($submodule, new SubmoduleTransformer())->toArray();
         $response = [
             "message" => $message,
-            "module" => $data
+            "submodule" => $data
         ];
         return response()->json($response);
     }
 
     public function delete($id)
     {
-       $module = Module::findOrFail($id);
+       $submodule = SubModule::findOrFail($id);
        $message = "";
 
-        if($module->delete()) {
-            $message = "Module Deleted!";
+        if($submodule->delete()) {
+            $message = "Submodule Deleted!";
         } else {
-            $message = "Error! Module not deleted!";
+            $message = "Error! Submodule not deleted!";
         }
-        $data = fractal()->item($module, new ModuleTransformer())->toArray();
+        $data = fractal()->item($submodule, new SubmoduleTransformer())->toArray();
         $response = [
             "message" => $message,
-            "module" => $data
+            "submodule" => $data
         ];
         return response()->json($response);
     }

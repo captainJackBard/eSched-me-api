@@ -33,4 +33,9 @@ class Module extends Model
     {
         return $this->belongsTo('App\Activty');
     }
+
+    public function submodules()
+    {
+        return $this->hasMany('App\SubModule');
+    }
 }
