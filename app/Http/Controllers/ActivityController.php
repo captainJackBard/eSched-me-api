@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
+use Auth;
 
 class ActivityController extends Controller
 {
@@ -30,10 +31,12 @@ class ActivityController extends Controller
 
     public function index() 
     {
-        $activities = Activity::all();
+        // $activities = Activity::all();
+        $user = Auth::user();
+        $activities = Activity::where('user_id', $user->id)->get();
         $resource = new Collection($activities, new ActivityTransformer());
 
-        $data = $this->fractal->createData($resource)->toArray();
+        $data = $this->fractal->parseIncludes(['modules'])->createData($resource)->toArray();
 
         return response()->json($data);
     }

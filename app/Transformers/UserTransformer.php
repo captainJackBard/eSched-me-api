@@ -3,6 +3,7 @@ namespace App\Transformers;
 
 use App\User;
 use League\Fractal;
+use App\Activity;
 
 class UserTransformer extends Fractal\TransformerAbstract
 {
@@ -13,6 +14,7 @@ class UserTransformer extends Fractal\TransformerAbstract
      */
 	protected $availableIncludes = [
 		'activities',
+		'tagged_activities',
 	];
 
 	public function transform(User $user)
@@ -34,6 +36,12 @@ class UserTransformer extends Fractal\TransformerAbstract
 	}
 
 	public function includeActivities(User $user)
+	{
+		$activities = Activity::where('user_id', $user->id);
+		return $this->collection($activities, new ActivityTransformer());
+	}
+
+	public function includeTaggedActivities(User $user)
 	{
 		$activities = $user->activities()->get();
 

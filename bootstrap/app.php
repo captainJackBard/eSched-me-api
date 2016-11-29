@@ -65,6 +65,7 @@ $app->singleton(
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'jwt.auth' => Tymon\JWTAuth\Middleware\Authenticate::class,
 ]);
 
 /*
@@ -78,7 +79,7 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
@@ -94,11 +95,12 @@ $app->register(App\Providers\AuthServiceProvider::class);
 */
 
 $app->register(Spatie\Fractal\FractalLumenServiceProvider::class);
-class_alias(Laravel\Socialite\Facades\Socialite::class, 'Socialite');
-$app->register(Laravel\Socialite\SocialiteServiceProvider::class);
+$app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+// class_alias(Laravel\Socialite\Facades\Socialite::class, 'Socialite');
+// $app->register(Laravel\Socialite\SocialiteServiceProvider::class);
 
-$app->configure('services')
-
+// $app->configure('services')
+$app->register(App\Libraries\SHAHashServiceProvider::class);
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../routes/web.php';
 });

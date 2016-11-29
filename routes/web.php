@@ -15,14 +15,30 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-$app->group(['prefix' => 'api/v1'], function($app) {
-    $app->get('activity', 'ActivityController@index');
-    $app->get('activity/{id}', 'ActivityController@show');
-    $app->post('activity', 'ActivityController@store');
-    $app->patch('activity/{id}', 'ActivityController@update');
-    $app->delete('activity/{id}', 'ActivityController@delete');
-    $app->post('activity/{id}/tag', 'ActivityController@tag');
-    $app->post('activity/{id}/untag', 'ActivityController@untag');
+$app->post('/auth/login', 'AuthController@postLogin');
+$app->post('/auth/register', 'AuthController@register');
+
+$app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], function($app) {
+
+    // User Route Group
+    $app->group(['prefix' => 'me'], function ($app) {
+        $app->get('/', 'UserController@me');
+        $app->post('/update', 'UserController@updateInfo');
+        $app->get('/requests', 'UserController@pendingRequests');
+        $app->get('/friends', 'UserController@friends');
+    });
+
+    // Activity Route Group
+    $app->group(['prefix' => 'activity'], function($app) {
+        $app->get('/', 'ActivityController@index');
+        $app->get('/{id}', 'ActivityController@show');
+        $app->post('/', 'ActivityController@store');
+        $app->patch('/{id}', 'ActivityController@update');
+        $app->delete('/{id}', 'ActivityController@delete');
+        $app->post('/{id}/tag', 'ActivityController@tag');
+        $app->post('/{id}/untag', 'ActivityController@untag');
+    });
+    
     
     // Modules Route Group
     $app->group(['prefix' => 'module'], function($app) {
