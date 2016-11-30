@@ -64,7 +64,10 @@ class UserController extends Controller
 
 	public function approve($id)
 	{
-		
+		// implement this function to approve pending requests.
+		$user = User::findOrFail($id);
+		Auth::user()->friends()->updateExistingPivot($user->id, ['status' => 'accepted']);
+		return response()->json(['Request Accepted!']);
 	}
 
 	public function remove($id)
@@ -77,7 +80,7 @@ class UserController extends Controller
 	public function pendingRequests()
 	{
 		$user = Auth::user();
-		$requests = $user->friends()->wherePivot('status', 'pending')->get();
+		$requests = $user->requestOf()->get();
 		$response = [
 			"data" => $requests,
 		];
@@ -87,7 +90,7 @@ class UserController extends Controller
 	public function friends()
 	{
 		$user = Auth::user();
-		$requests = $user->friends()->wherePivot('status', 'accepted')->get();
+		$requests = $user->friendsOfMine()->merge($user->friendOf());
 		$response = [
 			"data" => $requests,
 		];

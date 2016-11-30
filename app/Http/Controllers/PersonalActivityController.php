@@ -10,7 +10,7 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 
-class ModuleController extends Controller
+class PersonalActivityController extends Controller
 {
     
     protected $fractal;
@@ -30,30 +30,41 @@ class ModuleController extends Controller
 
     public function index() 
     {
-        $modules = Module::all();
-        $resource = new Collection($modules, new ModuleTransformer());
+        $pa = PersonalActivity::all();
+        $resource = new Collection($pa, new PersonalActivityTransformer());
         $data = $this->fractal->createData($resource)->toArray();
         return response()->json($data);
     }
 
     public function show($id) 
     {
-        
+        $pa = PersonalActivity::findOrFail($id);
+        $resource = new Item($pa, new PersonalActivityTransformer());
+        $data = $this->fractal->createData($resource)->toArray();
+        return response()->json($data);
     }
 
     public function store(Request $request)
     {
-        
+        if($pa = PersonalActivity::create($request->all())) {
+            return response()->json(['Personal Activity Created!']);
+        }
     }
 
     public function update(Request $request, $id)
     {
-        
+        $pa = PersonalActivity::findOrFail($id);
+        if($pa->update($request->all())) {
+            return response()->json(['Personal Activity Updated!']);
+        }
     }
 
     public function delete($id)
     {
-       
+        $pa = PersonalActivity::findOrFail($id);
+        if($pa->delete()) {
+            return response()->json(['Personal Activity Deleted!']);
+        }
     }
 
 }

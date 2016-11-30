@@ -53,13 +53,46 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
         return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id');
     }
 
+    public function friendsOfMine()
+    {
+        return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id')
+            ->wherePivot('status', '=', 'accepted')
+            ->withPivot('status');
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany('App\User', 'relationship', 'friend_id', 'user_id')
+            ->wherePivot('status', '=', 'accepted')
+            ->withPivot('status');
+    }
+
+    public function myRequests()
+    {
+        return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id')
+            ->wherePivot('status', '=', 'pending')
+            ->withPivot('status');
+    }
+
+    public function requestOf()
+    {
+        return $this->belongsToMany('App\User', 'relationship', 'friend_id', 'user_id')
+            ->wherePivot('status', '=', 'pending')
+            ->withPivot('status');
+    }
+
     public function addFriend(User $user)
     {
-        $this->friends()->attach($user->id);
+        $this->friends()->attach([$user->id => ['status' =>'pending']]);
     }
 
     public function removeFriend(User $user)
     {
         $this->friends()->detach($user->id);
+    }
+
+    public function personalActivities()
+    {
+        $this->hasMany('App\PersonalActivity');
     }
 }

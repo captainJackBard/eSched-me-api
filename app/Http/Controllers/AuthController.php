@@ -59,4 +59,9 @@ class AuthController extends Controller
         $user->save();
         return response()->json(['message' => 'User Registration Success']);
     }
+
+    public function fblogin(Request $request)
+    {
+        return response()->json(['hello']);
+    }
 }

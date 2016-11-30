@@ -17,6 +17,8 @@ $app->get('/', function () use ($app) {
 
 $app->post('/auth/login', 'AuthController@postLogin');
 $app->post('/auth/register', 'AuthController@register');
+$app->post('/auth/refresh', 'AuthController@refresh');
+$app->post('/auth/fblogin', 'AuthController@fblogin');
 
 $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], function($app) {
 
@@ -26,6 +28,9 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->post('/update', 'UserController@updateInfo');
         $app->get('/requests', 'UserController@pendingRequests');
         $app->get('/friends', 'UserController@friends');
+        $app->post('/approve/{id}', 'UserController@approve');
+        $app->post('/unfriend/{id}', 'UserController@remove');
+        $app->post('/add/{id}', 'UserController@add');
     });
 
     // Activity Route Group
