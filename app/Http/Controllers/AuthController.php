@@ -62,6 +62,6 @@ class AuthController extends Controller
 
     public function fblogin(Request $request)
     {
-        return response()->json(['hello']);
+        return response()->json($request);
     }
 }

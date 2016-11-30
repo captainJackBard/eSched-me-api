@@ -96,10 +96,11 @@ $app->register(App\Providers\AuthServiceProvider::class);
 
 $app->register(Spatie\Fractal\FractalLumenServiceProvider::class);
 $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Barryvdh\Cors\LumenServiceProvider::class);
 // class_alias(Laravel\Socialite\Facades\Socialite::class, 'Socialite');
 // $app->register(Laravel\Socialite\SocialiteServiceProvider::class);
 
-// $app->configure('services')
+$app->configure('cors');
 $app->register(App\Libraries\SHAHashServiceProvider::class);
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../routes/web.php';

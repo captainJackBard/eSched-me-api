@@ -10,15 +10,15 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
+$app->group(['middleware' => 'cors'], function($app) {
 $app->get('/', function () use ($app) {
     return $app->version();
 });
 
+$app->post('/auth/fblogin', 'AuthController@fblogin');
 $app->post('/auth/login', 'AuthController@postLogin');
 $app->post('/auth/register', 'AuthController@register');
 $app->post('/auth/refresh', 'AuthController@refresh');
-$app->post('/auth/fblogin', 'AuthController@fblogin');
 
 $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], function($app) {
 
@@ -70,4 +70,5 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->patch('/{id}', 'PersonalTaskController@update');
         $app->delete('/{id}', 'PersonalTaskController@delete');
     });
+});
 });
