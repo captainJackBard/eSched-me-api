@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\JWTAuth;
 use Facebook\Facebook;
+use App\User;
 
 use Auth;
 
@@ -62,6 +63,12 @@ class AuthController extends Controller
         return response()->json(['message' => 'User Registration Success']);
     }
 
+    function random_password( $length = 8 ) {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
+        $password = substr( str_shuffle( $chars ), 0, $length );
+        return $password;
+    }
+
     public function fblogin(Request $request)
     {
         $fb = new Facebook([
@@ -71,7 +78,7 @@ class AuthController extends Controller
         ]);
 
         try {
-            $response = $fb->get('/me?fields=id,name', $request['authResponse']['accessToken']);
+            $response = $fb->get('/me?fields=id,first_name,last_name,email', $request['authResponse']['accessToken']);
         }  catch(Facebook\Exceptions\FacebookResponseException $e) {
           echo 'Graph returned an error: ' . $e->getMessage();
           exit;
@@ -80,8 +87,41 @@ class AuthController extends Controller
           exit;
         }
 
+        
         $user = $response->getGraphUser();
 
-        return response()->json($user->getProperty('first_name'));
+        $first_name = $user->getProperty('first_name');
+        $last_name = $user->getProperty('last_name');
+        $email = $user->getProperty('email');
+        $fuid = $user->getProperty('id');
+
+        $user_info = [
+            'first_name' => $user->getProperty('first_name'),
+            'last_name' => $user->getProperty('last_name'),
+
+        ];
+
+        $token = "";
+        if ($account = User::where('fuid', $fuid)->first()) {
+            $token = $this->jwt->fromUser($account);
+            return response()->json(compact('token'));
+        } else {
+            $account = new User();
+            $account->first_name = $first_name;
+            $account->last_name = $last_name;
+            $account->email = $email;
+            $account->fuid = $fuid;
+            $account->password = app('hash')->make('polki123');
+            if($account->save()) {
+                try {
+                    $token = $this->jwt->fromUser($account);
+                } catch (JWTException $e) {
+                    return response()->json(['error' => 'could_not_create_token'], 500);
+                }
+            }
+        }
+
+        return response()->json(compact('token'));
     }
+
 }
