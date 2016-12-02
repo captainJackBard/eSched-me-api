@@ -111,7 +111,7 @@ class AuthController extends Controller
             $account->last_name = $last_name;
             $account->email = $email;
             $account->fuid = $fuid;
-            $account->password = app('hash')->make('polki123');
+            $account->password = app('hash')->make($this->random_password());
             if($account->save()) {
                 try {
                     $token = $this->jwt->fromUser($account);
