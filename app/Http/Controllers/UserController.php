@@ -94,8 +94,9 @@ class UserController extends Controller
 		} 
 		if($friends->contains($checkingUser)) {
 			$friend = true;
-		} else {
-			// $norelation = true;
+		} 
+		if(!$myRequest && !$requestOf && !$friend) {
+			$norelation = true;
 		}
 
 		$data =  fractal()->item($checkingUser, new UserTransformer())

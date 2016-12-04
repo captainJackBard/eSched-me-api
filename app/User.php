@@ -54,6 +54,12 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
             ->withPivot('status');
     }
 
+    public function otherFriends()
+    {
+        return $this->belongsToMany('App\User', 'relationship', 'friend_id', 'user_id')
+            ->withPivot('status');
+    }
+
     public function friendsOfMine()
     {
         return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id')
@@ -90,6 +96,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function removeFriend(User $user)
     {
         $this->friends()->detach($user->id);
+        $this->otherFriends()->detach($user->id);
     }
 
     public function personalActivities()
