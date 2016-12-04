@@ -94,6 +94,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 |
 */
 
+$app->register(Nord\Lumen\SparkPost\SparkPostServiceProvider::class);
 $app->register(Spatie\Fractal\FractalLumenServiceProvider::class);
 $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Barryvdh\Cors\LumenServiceProvider::class);

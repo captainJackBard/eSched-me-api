@@ -22,15 +22,22 @@ $app->post('/auth/refresh', 'AuthController@refresh');
 
 $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], function($app) {
 
-    // User Route Group
+    // Logged In User Route Group
     $app->group(['prefix' => 'me'], function ($app) {
         $app->get('/', 'UserController@me');
+        $app->get('/users', 'UserController@users');
         $app->post('/update', 'UserController@updateInfo');
         $app->get('/requests', 'UserController@pendingRequests');
+        $app->get('/check/{id}', 'UserController@checkRequest');
         $app->get('/friends', 'UserController@friends');
         $app->post('/approve/{id}', 'UserController@approve');
         $app->post('/unfriend/{id}', 'UserController@remove');
         $app->post('/add/{id}', 'UserController@add');
+    });
+
+    //Other Users Route Group
+    $app->group(['prefix' => 'user'], function($app) {
+        $app->get('/{id}', 'UserController@getUser');
     });
 
     // Activity Route Group

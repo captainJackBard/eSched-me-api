@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d8a6482e5a76f989ab0bbf3ffa769f5c",
-    "content-hash": "46fd46121acd20a77b791ee44e53402c",
+    "hash": "96aa94e7ef263c2cb9a80643e579dac0",
+    "content-hash": "4143fa37f905a694502dfa70000d7f8d",
     "packages": [
         {
             "name": "barryvdh/laravel-cors",
@@ -126,6 +126,92 @@
                 "string"
             ],
             "time": "2015-11-06 14:35:42"
+        },
+        {
+            "name": "egeloen/http-adapter",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egeloen/ivory-http-adapter.git",
+                "reference": "5d5dd5a10cc200bc94de93fe1b281da3c8b5f0f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egeloen/ivory-http-adapter/zipball/5d5dd5a10cc200bc94de93fe1b281da3c8b5f0f2",
+                "reference": "5d5dd5a10cc200bc94de93fe1b281da3c8b5f0f2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.8",
+                "zendframework/zend-diactoros": "^1.1"
+            },
+            "require-dev": {
+                "cakephp/cakephp": "^3.0.3",
+                "doctrine/cache": "^1.4",
+                "ext-curl": "*",
+                "guzzle/guzzle": "^3.9.4@dev",
+                "guzzlehttp/guzzle": "^4.1.4|^5.0|^6.0",
+                "kriswallsmith/buzz": "^0.13",
+                "nategood/httpful": "^0.2.17",
+                "phpunit/phpunit": "^4.0",
+                "phpunit/phpunit-mock-objects": "dev-matcher-verify as 2.3.x-dev",
+                "psr/log": "^1.0",
+                "react/dns": "^0.4.1",
+                "react/http-client": "^0.4",
+                "rmccue/requests": "dev-master",
+                "satooshi/php-coveralls": "^0.6",
+                "symfony/event-dispatcher": "^2.0|^3.0",
+                "symfony/phpunit-bridge": "^2.7|^3.0",
+                "tedivm/stash": "^0.13",
+                "zendframework/zend-http": "^2.3.4",
+                "zendframework/zendframework1": ">=1.12.9,<=1.12.14|^1.12.16"
+            },
+            "suggest": {
+                "doctrine/cache": "Allows you to use the cache event subscriber",
+                "ext-curl": "Allows you to use the cURL adapter",
+                "ext-http": "Allows you to use the PECL adapter",
+                "guzzle/guzzle": "Allows you to use the Guzzle 3 adapter",
+                "guzzlehttp/guzzle": "Allows you to use the Guzzle 4 adapter",
+                "kriswallsmith/buzz": "Allows you to use the Buzz adapter",
+                "nategood/httpful": "Allows you to use the Httpful adapter",
+                "psr/log": "Allows you to use the logger event subscriber",
+                "rmccue/requests": "Allows you to use the Requests adapter",
+                "symfony/event-dispatcher": "Allows you to use the event lifecycle",
+                "symfony/stopwatch": "Allows you to use the stopwatch http adapter and event subscriber",
+                "tedivm/stash": "Allows you to use the cache event subscriber",
+                "zendframework/zend-http": "Allows you to use the Zend 2 adapter",
+                "zendframework/zendframework1": "Allows you to use the Zend 1 adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ivory\\HttpAdapter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric GELOEN",
+                    "email": "geloen.eric@gmail.com"
+                }
+            ],
+            "description": "Issue HTTP request for PHP 5.3+.",
+            "keywords": [
+                "http",
+                "http-adapter",
+                "http-client",
+                "psr-7"
+            ],
+            "abandoned": "php-http/httplug",
+            "time": "2016-05-06 21:07:48"
         },
         {
             "name": "facebook/graph-sdk",
@@ -1021,6 +1107,58 @@
             "description": "The Illuminate Http package.",
             "homepage": "https://laravel.com",
             "time": "2016-09-22 13:54:12"
+        },
+        {
+            "name": "illuminate/mail",
+            "version": "v5.3.23",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/mail.git",
+                "reference": "c662dd9472e06f7d8bff37b0a8d55acd6fbab838"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/mail/zipball/c662dd9472e06f7d8bff37b0a8d55acd6fbab838",
+                "reference": "c662dd9472e06f7d8bff37b0a8d55acd6fbab838",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "5.3.*",
+                "illuminate/contracts": "5.3.*",
+                "illuminate/support": "5.3.*",
+                "php": ">=5.6.4",
+                "psr/log": "~1.0",
+                "swiftmailer/swiftmailer": "~5.1"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Required to use the SES mail driver (~3.0).",
+                "guzzlehttp/guzzle": "Required to use the Mailgun and Mandrill mail drivers (~5.3|~6.0).",
+                "jeremeamia/superclosure": "Required to be able to serialize closures (~2.0)."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Mail\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Mail package.",
+            "homepage": "https://laravel.com",
+            "time": "2016-11-11 19:16:01"
         },
         {
             "name": "illuminate/pagination",
@@ -1953,6 +2091,49 @@
             "time": "2016-06-12 19:08:51"
         },
         {
+            "name": "nordsoftware/lumen-sparkpost",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nordsoftware/lumen-sparkpost.git",
+                "reference": "182e962a4d54f5d8ea302359b8e96b0cf52753c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nordsoftware/lumen-sparkpost/zipball/182e962a4d54f5d8ea302359b8e96b0cf52753c6",
+                "reference": "182e962a4d54f5d8ea302359b8e96b0cf52753c6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "sparkpost/php-sparkpost": "^1.2"
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.1",
+                "codeception/specify": "^0.4.3",
+                "codeception/verify": "^0.3.0",
+                "laravel/lumen-framework": "^5.1",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nord\\Lumen\\SparkPost\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "SparkPost module for the Lumen PHP framework.",
+            "keywords": [
+                "laravel",
+                "lumen",
+                "sparkpost"
+            ],
+            "time": "2016-06-08 07:59:45"
+        },
+        {
             "name": "paragonie/random_compat",
             "version": "v2.0.4",
             "source": {
@@ -2098,6 +2279,52 @@
             "time": "2016-10-10 12:19:37"
         },
         {
+            "name": "sparkpost/php-sparkpost",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SparkPost/php-sparkpost.git",
+                "reference": "aac8412f0b6a12dd26b21e891a6f216e0a1c88e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SparkPost/php-sparkpost/zipball/aac8412f0b6a12dd26b21e891a6f216e0a1c88e2",
+                "reference": "aac8412f0b6a12dd26b21e891a6f216e0a1c88e2",
+                "shasum": ""
+            },
+            "require": {
+                "egeloen/http-adapter": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "^1.11",
+                "guzzlehttp/guzzle": "6.*",
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "4.3.*",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SparkPost\\": "lib/SparkPost/",
+                    "SparkPost\\SendGridCompatibility\\": "lib/SendGridCompatibility/",
+                    "SparkPost\\Test\\TestUtils\\": "test/unit/TestUtils/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "SparkPost"
+                }
+            ],
+            "description": "Client library for interfacing with the SparkPost API.",
+            "abandoned": "sparkpost/sparkpost",
+            "time": "2016-05-27 16:33:25"
+        },
+        {
             "name": "spatie/laravel-fractal",
             "version": "2.0.0",
             "source": {
@@ -2154,6 +2381,59 @@
                 "transform"
             ],
             "time": "2016-09-27 09:18:36"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "v5.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "545ce9136690cea74f98f86fbb9c92dd9ab1a756"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/545ce9136690cea74f98f86fbb9c92dd9ab1a756",
+                "reference": "545ce9136690cea74f98f86fbb9c92dd9ab1a756",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.4-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "email",
+                "mail",
+                "mailer"
+            ],
+            "time": "2016-11-24 01:01:23"
         },
         {
             "name": "symfony/console",
@@ -2912,6 +3192,56 @@
                 "environment"
             ],
             "time": "2016-09-01 10:05:43"
+        },
+        {
+            "name": "zendframework/zend-diactoros",
+            "version": "1.3.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-diactoros.git",
+                "reference": "969ff423d3f201da3ff718a5831bb999bb0669b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/969ff423d3f201da3ff718a5831bb999bb0669b0",
+                "reference": "969ff423d3f201da3ff718a5831bb999bb0669b0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 || ^7.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "~1.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.6 || ^5.5",
+                "squizlabs/php_codesniffer": "^2.3.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev",
+                    "dev-develop": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Diactoros\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "PSR HTTP Message implementations",
+            "homepage": "https://github.com/zendframework/zend-diactoros",
+            "keywords": [
+                "http",
+                "psr",
+                "psr-7"
+            ],
+            "time": "2016-10-11 13:25:21"
         }
     ],
     "packages-dev": [

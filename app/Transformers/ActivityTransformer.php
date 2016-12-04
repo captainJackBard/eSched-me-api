@@ -3,6 +3,7 @@ namespace App\Transformers;
 
 use App\Activity;
 use League\Fractal;
+use DateTime;
 
 class ActivityTransformer extends Fractal\TransformerAbstract
 {
@@ -11,6 +12,12 @@ class ActivityTransformer extends Fractal\TransformerAbstract
      *
      * @var array
      */
+	protected $defaultIncludes = [
+		'user',
+		'modules',
+	];
+
+
 	protected $availableIncludes = [
 		'user',
 		'tagged',
@@ -19,13 +26,17 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 
 	public function transform(Activity $activity)
 	{
+		$start = new DateTime($activity->start);
+		$end = new DateTime($activity->end);
+		$start_date = $start->format(DateTime::ATOM);
+		$end_date = $end->format(DateTime::ATOM);
 		return [
 			'id' => $activity->id,
             'title' => $activity->title,
             'desc' => $activity->desc,
             'status' => $activity->status,
-            'start' => $activity->start,
-            'end' => $activity->end,
+            'start' => $start_date,
+            'end' => $end_date,
             'priority' => (int) $activity->priority,
             'links' => [
             	'rel' => 'self',

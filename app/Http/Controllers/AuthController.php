@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\JWTAuth;
 use Facebook\Facebook;
 use App\User;
+use Nord\Lumen\SparkPost\SparkPostService;
 
 use Auth;
 
@@ -104,7 +105,7 @@ class AuthController extends Controller
         $token = "";
         if ($account = User::where('fuid', $fuid)->first()) {
             $token = $this->jwt->fromUser($account);
-            return response()->json(compact('token'));
+            // return response()->json(compact('token'));
         } else {
             $account = new User();
             $account->first_name = $first_name;

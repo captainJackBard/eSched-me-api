@@ -15,6 +15,8 @@ class UserTransformer extends Fractal\TransformerAbstract
 	protected $availableIncludes = [
 		'activities',
 		'tagged_activities',
+		'friends',
+		'requests',
 	];
 
 	public function transform(User $user)
@@ -37,7 +39,7 @@ class UserTransformer extends Fractal\TransformerAbstract
 
 	public function includeActivities(User $user)
 	{
-		$activities = Activity::where('user_id', $user->id);
+		$activities = Activity::where('user_id', $user->id)->get();
 		return $this->collection($activities, new ActivityTransformer());
 	}
 
@@ -48,4 +50,17 @@ class UserTransformer extends Fractal\TransformerAbstract
 		return $this->collection($activities, new ActivityTransformer());
 	}
 
+	public function includeFriends(User $user)
+	{
+		$friends = $user->friendsOfMine->merge($user->friendOf);
+
+		return $this->collection($friends, new UserTransformer());
+	}
+
+	public function includeRequests(User $user)
+	{
+		$requests = $user->myRequests->merge($user->requestOf);
+
+		return $this->collection($requests, new UserTransformer());
+	}
 }

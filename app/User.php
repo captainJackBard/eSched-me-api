@@ -50,7 +50,8 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 
     public function friends()
     {
-        return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id');
+        return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id')
+            ->withPivot('status');
     }
 
     public function friendsOfMine()

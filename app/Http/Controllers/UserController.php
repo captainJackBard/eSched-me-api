@@ -41,6 +41,16 @@ class UserController extends Controller
 		return response()->json($data);
 	}
 
+	public function users()
+	{
+		$logged_in = Auth::user();
+		$users = User::where('id', '!=', $logged_in->id)->get();
+		$resource = new Collection($users, new UserTransformer());
+
+		$data = $this->fractal->createData($resource)->toArray();
+		return response()->json($data);
+	}
+
 	public function updateInfo(Request $request)
 	{
 		$user = Auth::user();
@@ -55,6 +65,46 @@ class UserController extends Controller
 		}
 	}
 
+	public function getUser($id)
+	{
+		$user = User::findOrFail($id);
+		$resource = new Item($user, new UserTransformer());
+		$data = $this->fractal->createData($resource)->toArray();
+		return response()->json($data);
+	}
+
+	public function checkRequest($id)
+	{
+		$myRequest = false;
+		$requestOf = false;
+		$friend = false;
+		$norelation = false;
+
+		$user = Auth::user();
+		$checkingUser = User::findOrFail($id);
+		$requests = $user->myRequests->merge($user->requestOf);
+		$friends = $user->friendsOfMine->merge($user->friendOf);
+		if($requests->contains($checkingUser)) {
+			if($user->myRequests->contains($checkingUser)) {
+				$myRequest = true;
+			};
+			if($user->requestOf->contains($checkingUser)) {
+				$requestOf = true;
+			}
+		} 
+		if($friends->contains($checkingUser)) {
+			$friend = true;
+		} else {
+			// $norelation = true;
+		}
+
+		$data =  fractal()->item($checkingUser, new UserTransformer())
+				->addMeta(['friends' => $friend, 'myRequest' => $myRequest, 'requestOf' => $requestOf, 'noRelation' => $norelation])
+				->toArray();
+		return response()->json($data);
+
+	}
+
 	public function add($id)
 	{
 		$user = User::findOrFail($id);
@@ -66,7 +116,7 @@ class UserController extends Controller
 	{
 		// implement this function to approve pending requests.
 		$user = User::findOrFail($id);
-		Auth::user()->friends()->updateExistingPivot($user->id, ['status' => 'accepted']);
+		Auth::user()->requestOf()->sync([$user->id => ['status' => 'accepted']], false);
 		return response()->json(['Request Accepted!']);
 	}
 
