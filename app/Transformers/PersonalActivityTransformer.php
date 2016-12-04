@@ -21,7 +21,7 @@ class PersonalActivityTransformer extends Fractal\TransformerAbstract
 			'id' => $pa->id,
 			'user_id' => $pa->user_i,
             'title' => $pa->title,
-            'description' => $pa->desc,
+            'description' => $pa->description,
             'status' => $pa->status,
             'created' => $pa->created,
             'modified' => $pa->modified,

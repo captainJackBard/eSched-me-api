@@ -71,11 +71,11 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
     });
 
     $app->group(['prefix' => 'personaltask'], function($app) {
-        $app->get('/', 'PersonalTaskController@index');
-        $app->post('/', 'PersonalTaskController@store');
-        $app->get('/{id}', 'PersonalTaskController@show');
-        $app->patch('/{id}', 'PersonalTaskController@update');
-        $app->delete('/{id}', 'PersonalTaskController@delete');
+        $app->get('/', 'PersonalActivityController@index');
+        $app->post('/', 'PersonalActivityController@store');
+        $app->get('/{id}', 'PersonalActivityController@show');
+        $app->patch('/{id}', 'PersonalActivityController@update');
+        $app->delete('/{id}', 'PersonalActivityController@delete');
     });
 });
 });

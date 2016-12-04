@@ -101,6 +101,6 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 
     public function personalActivities()
     {
-        $this->hasMany('App\PersonalActivity');
+        return $this->hasMany('App\PersonalActivity');
     }
 }

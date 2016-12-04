@@ -17,6 +17,7 @@ class UserTransformer extends Fractal\TransformerAbstract
 		'tagged_activities',
 		'friends',
 		'requests',
+		'personal_tasks',
 	];
 
 	public function transform(User $user)
@@ -62,5 +63,12 @@ class UserTransformer extends Fractal\TransformerAbstract
 		$requests = $user->myRequests->merge($user->requestOf);
 
 		return $this->collection($requests, new UserTransformer());
+	}
+
+	public function includePersonalTasks(User $user)
+	{
+		$personal_tasks = $user->personalActivities;
+
+		return $this->collection($personal_tasks, new PersonalActivityTransformer());
 	}
 }

@@ -36,7 +36,7 @@ class UserController extends Controller
 		$user = Auth::user();
 		$resource = new Item($user, new UserTransformer());
 
-		$data = $this->fractal->parseIncludes(['activities', 'tagged_activities'])
+		$data = $this->fractal->parseIncludes(['activities', 'tagged_activities', 'personal_tasks'])
 				->createData($resource)->toArray();
 		return response()->json($data);
 	}
@@ -141,7 +141,7 @@ class UserController extends Controller
 	public function friends()
 	{
 		$user = Auth::user();
-		$requests = $user->friendsOfMine()->merge($user->friendOf());
+		$requests = $user->friendsOfMine->merge($user->friendOf);
 		$response = [
 			"data" => $requests,
 		];
