@@ -47,7 +47,7 @@ class PersonalActivityController extends Controller
     public function store(Request $request)
     {
         if($pa = PersonalActivity::create($request->all())) {
-            return response()->json(['Personal Activity Created!']);
+            return response()->json($pa);
         }
     }
 
@@ -55,7 +55,7 @@ class PersonalActivityController extends Controller
     {
         $pa = PersonalActivity::findOrFail($id);
         if($pa->update($request->all())) {
-            return response()->json(['Personal Activity Updated!']);
+            return response()->json('Personal Activity Updated!');
         }
     }
 
@@ -63,7 +63,7 @@ class PersonalActivityController extends Controller
     {
         $pa = PersonalActivity::findOrFail($id);
         if($pa->delete()) {
-            return response()->json(['Personal Activity Deleted!']);
+            return response()->json($pa);
         }
     }
 

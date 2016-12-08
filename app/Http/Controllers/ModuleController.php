@@ -50,15 +50,12 @@ class ModuleController extends Controller
         $module = null;
         if($module = Module::create($request->all())) {
             $message = "Module created!";
+            return response()->json($module);
         } else {
             $message = "Error Module not Created!";
         }
         $data = fractal()->item($module, new ModuleTransformer())->toArray();
-        $response = [
-            "message" => $message,
-            "module" => $data
-        ];
-        return response()->json($response);
+        return response()->json($message);
     }
 
     public function update(Request $request, $id)

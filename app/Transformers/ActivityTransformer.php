@@ -15,6 +15,7 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 	protected $defaultIncludes = [
 		'user',
 		'modules',
+		'tagged',
 	];
 
 

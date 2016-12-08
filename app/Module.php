@@ -31,7 +31,7 @@ class Module extends Model
 
     public function activity()
     {
-        return $this->belongsTo('App\Activty');
+        return $this->belongsTo('App\Activity');
     }
 
     public function submodules()

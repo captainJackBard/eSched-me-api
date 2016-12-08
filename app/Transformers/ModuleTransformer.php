@@ -12,11 +12,11 @@ class ModuleTransformer extends Fractal\TransformerAbstract
      * @var array
      */
 	protected $availableIncludes = [
-		'submodules'
+		'submodules',
 	];
 
     protected $defaultIncludes = [
-        'submodules'
+        'submodules',
     ];
 
 	public function transform(Module $module)
