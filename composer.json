@@ -16,7 +16,9 @@
         "barryvdh/laravel-cors": "^0.8.2",
         "facebook/graph-sdk" : "~5.0",
         "illuminate/mail": "^5.3",
-        "nordsoftware/lumen-sparkpost": "^0.1.0"
+        "guzzlehttp/guzzle": "^6.2",
+        "php-http/guzzle6-adapter": "^1.1",
+        "sparkpost/sparkpost": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -15,6 +15,7 @@ class UserTransformer extends Fractal\TransformerAbstract
 
 	protected $availableIncludes = [
 		'activities',
+		'skills',
 		'tagged_activities',
 		'friends',
 		'requests',
@@ -31,6 +32,7 @@ class UserTransformer extends Fractal\TransformerAbstract
             'skills' => $user->skills,
             'about_me' => $user->about_me,
             'email' => $user->email,
+            'fuid' => $user->fuid,
             'occupation' => $user->occupation,
             'links' => [
             	'rel' => 'self',
@@ -71,5 +73,12 @@ class UserTransformer extends Fractal\TransformerAbstract
 		$personal_tasks = $user->personalActivities;
 
 		return $this->collection($personal_tasks, new PersonalActivityTransformer());
+	}
+
+	public function includeSkills(User $user)
+	{
+		$skills = $user->skills;
+
+		return $this->collection($skills, new SkillsTransfromer());
 	}
 }

@@ -23,7 +23,7 @@ class SubmoduleTransformer extends Fractal\TransformerAbstract
             'title' => $submodule->title,
             'description' => $submodule->description,
             'status' => $submodule->status,
-            'percentage' => $submodule->percentage . '%',
+            'percentage' => $submodule->percentage,
             'links' => [
             	'rel' => 'self',
             	'uri' => '/submodule/' . $submodule->id,

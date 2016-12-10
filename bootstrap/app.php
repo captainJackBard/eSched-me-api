@@ -93,8 +93,6 @@ $app->register(App\Providers\AuthServiceProvider::class);
 | can respond to, as well as the controllers that may handle them.
 |
 */
-
-$app->register(Nord\Lumen\SparkPost\SparkPostServiceProvider::class);
 $app->register(Spatie\Fractal\FractalLumenServiceProvider::class);
 $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Barryvdh\Cors\LumenServiceProvider::class);
@@ -102,6 +100,7 @@ $app->register(Barryvdh\Cors\LumenServiceProvider::class);
 // $app->register(Laravel\Socialite\SocialiteServiceProvider::class);
 
 $app->configure('cors');
+$app->configure('sparkpost');
 $app->register(App\Libraries\SHAHashServiceProvider::class);
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../routes/web.php';

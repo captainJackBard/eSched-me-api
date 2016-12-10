@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\JWTAuth;
 use Facebook\Facebook;
 use App\User;
-use Nord\Lumen\SparkPost\SparkPostService;
+use SparkPost\SparkPost;
+use GuzzleHttp\Client;
+use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
 
 use Auth;
 
@@ -59,9 +61,46 @@ class AuthController extends Controller
     {
         $user = new \App\User();
         $user->email = $request->input('email');
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
         $user->password = app('hash')->make($request->input('password'));
-        $user->save();
-        return response()->json(['message' => 'User Registration Success']);
+        $user->confirmed = 0;
+        $user->confirmation_code = md5(uniqid(rand(), true));
+        if($user->save()) {
+            $httpClient = new GuzzleAdapter(new Client());
+            $sparky = new SparkPost($httpClient, ['key' => config('sparkpost.client.key')]);
+            $sparky->setOptions(['async' => false]);
+            
+            try {
+                $promise = $sparky->transmissions->post([
+                    'content' => [
+                        'template_id' => 'e-schedme-email-template',
+                    ],
+                     'recipients' => [
+                        [
+                            'address' => [
+                                'name' => $user->first_name . ' ' . $user->last_name,
+                                'email' => $user->email,
+                            ],
+                            'substitution_data' => [
+                                'firstname' => $user->first_name,
+                                'lastname' => $user->last_name,
+                                'userid' => $user->id,
+                                'code' => $user->confirmation_code,
+                            ],
+                        ],
+                    ],
+
+                ]);
+                if($promise->getStatusCode() == 200 ) {
+                    return response()->json(['message' => 'User Registration Success']);
+                }
+            }
+            catch (\Exception $e) {
+                echo $e->getCode()."\n";
+                echo $e->getMessage()."\n";
+            }
+        }
     }
 
     function random_password( $length = 8 ) {
@@ -99,7 +138,6 @@ class AuthController extends Controller
         $user_info = [
             'first_name' => $user->getProperty('first_name'),
             'last_name' => $user->getProperty('last_name'),
-
         ];
 
         $token = "";

@@ -103,4 +103,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return $this->hasMany('App\PersonalActivity');
     }
+
+    public function skills()
+    {
+        return $this->hasMany('App\Skill');
+    }
 }

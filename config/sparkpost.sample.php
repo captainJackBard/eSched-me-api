@@ -23,7 +23,7 @@ return [
         |
         */
 
-        'key' => 'd5d8cac61ca745aab465d03319867a131f948f5f',
+        'key' => 'YOUR API KEY HERE',
 
     ],
 
