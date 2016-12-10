@@ -30,7 +30,7 @@ class ModuleTransformer extends Fractal\TransformerAbstract
             'start' => $module->start,
             'end' => $module->end,
             'priority' => (int) $module->priority,
-            'percentage' => (double) $module->percentage . '%',
+            'percentage' => (double) $module->percentage,
             'links' => [
             	'rel' => 'self',
             	'uri' => '/module/' . $module->id,

@@ -12,9 +12,6 @@ class UserTransformer extends Fractal\TransformerAbstract
      *
      * @var array
      */
-	protected $defaultIncludes = [
-		'friends',
-	];
 
 	protected $availableIncludes = [
 		'activities',
