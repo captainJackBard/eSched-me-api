@@ -54,11 +54,20 @@ class AuthController extends Controller
 
         }
 
-        return response()->json(compact('token'));
+        $user = User::where('email', '=', $request->input('email'))->first();
+        if($user->confirmed === 1) return response()->json(compact('token'));
+
+        return response()->json('Please Verify Your Email Address.');
     }
 
     public function register(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|unique:users,email|email|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'password' => 'required|max:255',
+        ]);
         $user = new \App\User();
         $user->email = $request->input('email');
         $user->first_name = $request->input('first_name');
