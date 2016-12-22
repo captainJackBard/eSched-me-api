@@ -19,7 +19,9 @@ class Module extends Model
         'start', 
         'end', 
         'status', 
-        'priority', 
+        'priority',
+        'quality',
+        'risk',
         'created', 
         'modified'
     ];
