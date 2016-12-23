@@ -49,7 +49,7 @@ class UserTransformer extends Fractal\TransformerAbstract
 
 	public function includeTaggedActivities(User $user)
 	{
-		$activities = $user->activities()->where('user_id', '!=', $user->id);
+		$activities = $user->activities()->where('user_id', '!=', $user->id)->get();
 
 		return $this->collection($activities, new ActivityTransformer());
 	}
