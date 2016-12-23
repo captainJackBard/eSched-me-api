@@ -75,10 +75,10 @@ class UserTransformer extends Fractal\TransformerAbstract
 		return $this->collection($personal_tasks, new PersonalActivityTransformer());
 	}
 
-	public function includeSkills(User $user)
-	{
-		$skills = $user->skills;
-
-		return $this->collection($skills, new SkillsTransfromer());
-	}
+//	public function includeSkills(User $user)
+//	{
+//		$skills = $user->skills;
+//
+//		return $this->collection($skills, new SkillsTransfromer());
+//	}
 }
