@@ -52,6 +52,7 @@ class ActivityController extends Controller
     {
         if($activity = Activity::create($request->all())) {   
             $resource = new Item($activity, new ActivityTransformer());
+            $activity->users()->attach($request->user_id);
             $data = $this->fractal->createData($resource)->toArray();
             $response = [
                 "message" => "Activity Created",
