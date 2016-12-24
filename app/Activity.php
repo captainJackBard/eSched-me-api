@@ -34,4 +34,8 @@ class Activity extends Model
     {
         return $this->hasMany('App\Module');
     }
+
+    public function locations() {
+        return $this->hasMany('App\Location');
+    }
 }

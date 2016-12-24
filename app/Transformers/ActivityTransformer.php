@@ -16,6 +16,7 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 		'user',
 		'modules',
 		'tagged',
+        'meetings',
 	];
 
 
@@ -23,6 +24,7 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 		'user',
 		'tagged',
 		'modules',
+        'meetings',
 	];
 
 	public function transform(Activity $activity)
@@ -78,4 +80,11 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 
 		return $this->collection($modules, new ModuleTransformer());
 	}
+
+	public function includeMeetings(Activity $activity)
+    {
+        $meetings = $activity->locations;
+
+        return $this->collection($meetings, new LocationTransformer());
+    }
 }
