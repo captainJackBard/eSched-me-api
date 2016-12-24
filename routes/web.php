@@ -50,6 +50,14 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->post('/{id}/tag', 'ActivityController@tag');
         $app->post('/{id}/untag', 'ActivityController@untag');
     });
+
+    $app->group(['prefix' => 'meeting'], function ($app) {
+        $app->get('/', 'MeetingController@index');
+        $app->post('/', 'MeetingController@store');
+        $app->get('/{id}', 'MeetingController@show');
+        $app->patch('/{id}', 'MeetingController@update');
+        $app->delete('/{id}', 'MeetingController@delete');
+    });
     
     
     // Modules Route Group
