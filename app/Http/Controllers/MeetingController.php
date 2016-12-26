@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
+use Auth;
 
 class MeetingController extends Controller
 {
@@ -30,6 +31,7 @@ class MeetingController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
         $locations = Location::all();
         $resource = new Collection($locations, new LocationTransformer());
         $data = $this->fractal->createData($resource)->toArray();
@@ -38,10 +40,15 @@ class MeetingController extends Controller
 
     public function show($id)
     {
+        $user = Auth::user();
         $location = Location::findOrFail($id);
-        $resource = new Item($location, new LocationTransformer());
-        $data = $this->fractal->createData($resource)->toArray();
-        return response()->json($data);
+        if ($location->activity->users->contains('id', $user->id)) {
+            $resource = new Item($location, new LocationTransformer());
+            $data = $this->fractal->createData($resource)->toArray();
+            return response()->json($data);
+        }
+
+        return response()->json('Unauthorized', 401);
     }
 
     public function store(Request $request)
