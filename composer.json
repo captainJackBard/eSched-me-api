@@ -18,7 +18,8 @@
         "illuminate/mail": "^5.3",
         "guzzlehttp/guzzle": "^6.2",
         "php-http/guzzle6-adapter": "^1.1",
-        "sparkpost/sparkpost": "^2.0"
+        "sparkpost/sparkpost": "^2.0",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
