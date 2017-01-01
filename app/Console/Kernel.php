@@ -4,6 +4,10 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
+use App\Activity;
+use App\Module;
+
+use DateTime;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,6 +28,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->call(function() {
+            // TODO : This cron job will run everyminute, check if the project is 
+            // and change its status to 'failed'
+            $projects = Activity::where('end', '<=', new DateTime())->where('status', 'Ongoing');
+            $projects->update(["status" => "Failed"]);
+            // TODO : Optionally broadcast an event here that a project has failed once we
+            // implemented the laravel events and socket.io or pusher
+
+            $modules = Module::where('end', '<=', new DateTime())->where('status', 'Ongoing');
+            $modules->update(["status" => "Failed"]);
+        });
     }
 }

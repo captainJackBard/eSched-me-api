@@ -11,6 +11,8 @@ use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Auth;
 
+use DateTime;
+
 class ActivityController extends Controller
 {
     
