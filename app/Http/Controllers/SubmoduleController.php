@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\SubModule;
+use App\Module;
 use App\Http\Controllers\Controller;
 use App\Transformers\SubmoduleTransformer;
 use Illuminate\Http\Request;
@@ -62,14 +63,21 @@ class SubmoduleController extends Controller
     public function update(Request $request, $id)
     {
         $submodule = SubModule::findOrFail($id);
-        $message = "";
 
+        $message = "";
         if($submodule->update($request->all())) {
             $message = "Submodule Updated!";
+            $status = SubModule::where('module_id', $submodule->module_id)->select(['status'])->get();
+            $not_complete = $status->where('status', '!=', 'completed');
+            if ($not_complete->isEmpty()) { // Meaning every submodule is completed
+                $module = Module::findOrFail($submodule->module_id);
+                $module->status = "completed";
+                $module->save();
+                $message = 'Submodule Updated and Module is Complete!';
+            }
         } else {
             $message = "Error, Submodule not Updated!";
         }
-
         $data = fractal()->item($submodule, new SubmoduleTransformer())->toArray();
         $response = [
             "message" => $message,
