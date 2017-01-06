@@ -67,6 +67,8 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->get('/{id}', 'ModuleController@show');
         $app->patch('/{id}', 'ModuleController@update');
         $app->delete('/{id}', 'ModuleController@delete');
+        $app->post('/{id}/tag', 'ModuleController@tag');
+        $app->post('/{id}/untag', 'ModuleController@untag');
     });
 
     // Submodules Route Group

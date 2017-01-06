@@ -37,7 +37,12 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return $this->belongsToMany('App\Activity', 'activity_tags', 'friend_id', 'activity_id');
     }
-    
+
+    public function modules()
+    {
+        return $this->belongsToMany('\App\User', 'module_tags', 'friend_id', 'module_id');
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

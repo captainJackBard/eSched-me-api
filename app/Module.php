@@ -28,7 +28,7 @@ class Module extends Model
 
     public function users()
     {
-        return $this->belongsToMany('\App\User', 'activity_tags', 'activity_id', 'friend_id');
+        return $this->belongsToMany('\App\User', 'module_tags', 'module_id', 'friend_id');
     }
 
     public function activity()

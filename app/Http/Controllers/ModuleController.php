@@ -95,4 +95,28 @@ class ModuleController extends Controller
         return response()->json($response);
     }
 
+    public function tag(Request $request, $id)
+    {
+        $module = Module::findOrFail($id);
+        $module->users()->attach($request->user_id);
+        $data = fractal()->item($module, new ModuleTransformer())->toArray();
+        $response = [
+            "message" => "User tagged!",
+            "activity" => $data,
+        ];
+        return response()->json($response);
+    }
+
+    public function untag(Request $request, $id)
+    {
+        $module = Module::findOrFail($id);
+        $module->users()->detach($request->user_id);
+        $data = fractal()->item($module, new ModuleTransformer())->toArray();
+        $response = [
+            "message" => "User untagged!",
+            "activity" => $data,
+        ];
+        return response()->json($response);
+    }
+
 }

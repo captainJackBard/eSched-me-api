@@ -55,7 +55,7 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', '=', $request->input('email'))->first();
-        if($user->confirmed === 1) return response()->json(compact('token'));
+        if($user->confirmed == 1) return response()->json(compact('token'));
 
         return response()->json('Please Verify Your Email Address.');
     }
