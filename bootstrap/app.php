@@ -96,8 +96,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Spatie\Fractal\FractalLumenServiceProvider::class);
 $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Barryvdh\Cors\LumenServiceProvider::class);
-// class_alias(Laravel\Socialite\Facades\Socialite::class, 'Socialite');
-// $app->register(Laravel\Socialite\SocialiteServiceProvider::class);
+$app->register(\Illuminate\Broadcasting\BroadcastServiceProvider::class);
 
 $app->configure('cors');
 $app->configure('sparkpost');
