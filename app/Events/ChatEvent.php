@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Chat;
+use App\PrivateMessage;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -16,7 +16,7 @@ class ChatEvent extends Event implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Chat $message)
+    public function __construct(PrivateMessage $message)
     {
         $this->message = $message;
     }
@@ -24,7 +24,6 @@ class ChatEvent extends Event implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array
      */
     public function broadcastOn()
     {

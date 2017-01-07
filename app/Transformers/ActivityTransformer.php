@@ -51,22 +51,13 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 		];
 	}
 
-	/**
-     * Include User
-     *
-     * @return League\Fractal\ItemResource
-     */
-	public function includeUser(Activity $activity)
+    public function includeUser(Activity $activity)
 	{
 		$user = \App\User::find($activity->user_id);
 
 		return $this->item($user, new UserTransformer());
 	}
-	/**
-     * Include Tagged
-     *
-     * @return League\Fractal\ItemResource
-     */
+
 	public function includeTagged(Activity $activity)
 	{
 		$users = $activity->users()->get();

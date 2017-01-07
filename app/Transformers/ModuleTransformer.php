@@ -13,10 +13,12 @@ class ModuleTransformer extends Fractal\TransformerAbstract
      */
 	protected $availableIncludes = [
 		'submodules',
+        'tagged',
 	];
 
     protected $defaultIncludes = [
         'submodules',
+        'tagged',
     ];
 
 	public function transform(Module $module)
@@ -44,6 +46,12 @@ class ModuleTransformer extends Fractal\TransformerAbstract
     {
         $submodules = $module->submodules;
         return $this->collection($submodules, new SubmoduleTransformer());
+    }
+
+    public function includeTagged(Module $module)
+    {
+        $users = $module->users()->get();
+        return $this->collection($users, new UserTransformer());
     }
 
 }

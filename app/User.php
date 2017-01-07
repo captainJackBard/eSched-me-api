@@ -111,11 +111,11 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 
     public function sentMessages()
     {
-        return $this->hasMany('App\Chat', 'sender_id');
+        return $this->hasMany('App\PrivateMessage', 'sender_id');
     }
 
     public function receivedMessages()
     {
-        return $this->hasMany('App\Chat', 'receiver_id');
+        return $this->hasMany('App\PrivateMessage', 'receiver_id');
     }
 }

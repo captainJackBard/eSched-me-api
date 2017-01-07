@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChatEvent;
 use App\User;
-use App\Chat;
+use App\PrivateMessage;
 use App\Http\Controllers\Controller;
 use App\Transformers\ActivityTransformer;
 use Illuminate\Http\Request;
@@ -41,7 +42,8 @@ class ChatController extends Controller
             'message' => $request->input('message'),
         ];
 
-        if($chat = Chat::create($data) ) {
+        if($chat = PrivateMessage::create($data) ) {
+            event(new ChatEvent($chat));
             return response()->json('chat session initialized');
         }
     }
