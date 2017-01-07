@@ -33,11 +33,14 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->post('/approve/{id}', 'UserController@approve');
         $app->post('/unfriend/{id}', 'UserController@remove');
         $app->post('/add/{id}', 'UserController@add');
+
+        $app->get('/messages', 'ChatController@myMessages');
     });
 
     //Other Users Route Group
     $app->group(['prefix' => 'user'], function($app) {
         $app->get('/{id}', 'UserController@getUser');
+        $app->post('/{id}/message', 'ChatController@message');
     });
 
     // Activity Route Group
