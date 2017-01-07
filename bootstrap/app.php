@@ -81,7 +81,8 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
+//$app->register(App\Providers\BroadcastServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -96,10 +97,11 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Spatie\Fractal\FractalLumenServiceProvider::class);
 $app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Barryvdh\Cors\LumenServiceProvider::class);
-$app->register(\Illuminate\Broadcasting\BroadcastServiceProvider::class);
 
+$app->configure('queue');
 $app->configure('cors');
 $app->configure('sparkpost');
+$app->configure('broadcasting');
 $app->register(App\Libraries\SHAHashServiceProvider::class);
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../routes/web.php';

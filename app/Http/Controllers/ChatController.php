@@ -51,7 +51,15 @@ class ChatController extends Controller
     public function myMessages()
     {
         $user = Auth::user();
-        $messages = $user->sentMessages->merge($user->receivedMessages);   
+        $messages = $user->sentMessages->merge($user->receivedMessages)->where('parent_id', null);
         return response()->json($messages);
+    }
+
+    public function showMessageThread($id)
+    {
+        $user = Auth::user();
+        $parent_message = $user->sentMessages->merge($user->receivedMessages)->where('id', $id);
+        $messages = $user->sentMessages->merge($user->receivedMessages)->where('parent_id', $id);
+        return response()->json($messages->merge($parent_message));
     }
 }

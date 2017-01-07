@@ -35,6 +35,7 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->post('/add/{id}', 'UserController@add');
 
         $app->get('/messages', 'ChatController@myMessages');
+        $app->get('/messages/{id}', 'ChatController@showMessageThread');
     });
 
     //Other Users Route Group

@@ -102,7 +102,7 @@ class ModuleController extends Controller
         $data = fractal()->item($module, new ModuleTransformer())->toArray();
         $response = [
             "message" => "User tagged!",
-            "activity" => $data,
+            "module" => $data,
         ];
         return response()->json($response);
     }
@@ -114,7 +114,7 @@ class ModuleController extends Controller
         $data = fractal()->item($module, new ModuleTransformer())->toArray();
         $response = [
             "message" => "User untagged!",
-            "activity" => $data,
+            "module" => $data,
         ];
         return response()->json($response);
     }

@@ -28,6 +28,6 @@ class ChatEvent extends Event implements ShouldBroadcast
     public function broadcastOn()
     {
         // TODO: Implement broadcastOn() method.
-        return new PrivateChannel('message.'.$this->message->id);
+        return ['message.'.$this->message->receiver_id];
     }
 }
