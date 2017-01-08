@@ -95,7 +95,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
 
     public function addFriend(User $user)
     {
-        $this->friends()->attach([$user->id => ['status' =>'pending']]);
+        $this->friends()->attach([$user->id => ['status' =>'Pending']]);
     }
 
     public function removeFriend(User $user)

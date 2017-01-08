@@ -117,7 +117,7 @@ class UserController extends Controller
 	{
 		// implement this function to approve pending requests.
 		$user = User::findOrFail($id);
-		Auth::user()->requestOf()->sync([$user->id => ['status' => 'accepted']], false);
+		Auth::user()->requestOf()->sync([$user->id => ['status' => 'Accepted']], false);
 		return response()->json(['Request Accepted!']);
 	}
 
