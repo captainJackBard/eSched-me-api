@@ -61,7 +61,7 @@ class MeetingController extends Controller
         } else {
             $message = "Error Module not Created!";
         }
-        $data = fractal()->item($meeting, new LocationTransformer())->toArray();
+        $data = fractal()->collection($meeting, new LocationTransformer())->toArray();
         return response()->json($message);
     }
 
