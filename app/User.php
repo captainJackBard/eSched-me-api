@@ -82,15 +82,16 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function myRequests()
     {
         return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id')
-            ->wherePivot('status', '=', 'pending')
+            ->wherePivot('status', '!=', 'accepted')
             ->withPivot('status');
     }
 
     public function requestOf()
     {
         return $this->belongsToMany('App\User', 'relationship', 'friend_id', 'user_id')
-            ->wherePivot('status', '=', 'pending')
-            ->withPivot('status');
+            ->wherePivot('status', '!=', 'accepted')
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
     public function addFriend(User $user)

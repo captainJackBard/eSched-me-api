@@ -58,10 +58,10 @@ class ChatController extends Controller
         ];
 
         if($chat->save()) {
-            event(new ChatEvent($chat));
             $chat->sender = $sender;
             $chat->receiver = User::findOrFail($id);
             $chat->parent = $parent_chat;
+            event(new ChatEvent($chat));
             return response()->json($chat);
         }
     }

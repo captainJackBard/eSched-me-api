@@ -25,6 +25,13 @@ class AuthController extends Controller
         $this->jwt = $jwt;
     }
 
+    public function autoLogin($id)
+    {
+        $user = User::findOrFail($id);
+        $token = $this->jwt->fromUser($user);
+        return response()->json(compact('token'));
+    }
+
     public function postLogin(Request $request)
     {
         $this->validate($request, [

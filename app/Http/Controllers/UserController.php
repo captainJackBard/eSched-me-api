@@ -135,6 +135,8 @@ class UserController extends Controller
 		$response = [
 			"data" => $requests,
 		];
+		$update_requests = $user->requestOf();
+		$update_requests->rawUpdate(['relationship.status' => 'seen', 'modified' => null]);
 		return response()->json($response);
 	}
 

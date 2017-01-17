@@ -19,6 +19,7 @@ $app->post('/auth/fblogin', 'AuthController@fblogin');
 $app->post('/auth/login', 'AuthController@postLogin');
 $app->post('/auth/register', 'AuthController@register');
 $app->post('/auth/refresh', 'AuthController@refresh');
+$app->get('/auth/magic/{id}', 'AuthController@autoLogin');
 
 $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], function($app) {
 
