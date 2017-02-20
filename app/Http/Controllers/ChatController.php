@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\ChatEvent;
+use App\GroupChat;
+use App\Message;
 use App\Transformers\MessageTransformer;
 use App\Transformers\UserTransformer;
 use App\User;
@@ -64,6 +66,49 @@ class ChatController extends Controller
             event(new ChatEvent($chat));
             return response()->json($chat);
         }
+    }
+
+    public function groupMessage(Request $request)
+    {
+        $sender = Auth::user();
+        $message = new Message();
+        $message->message = $request->input('message');
+        $message->sender_id = $sender->id;
+        if($request->input('group_chat_id')) {
+            $group_chat = GroupChat::findOrFail($request->input('group_chat_id'));
+            $message->grouo_chat_id = $group_chat->id;
+        } else if($request->input('group_name')){
+            $group_name = $request->input('group_name');
+            $group_chat = GroupChat::create();
+            $message->group_chat_id = $group_chat->id;
+            $message->save();
+            $group_chat->group_name = $group_name;
+            $group_chat->message_id = $message->id;
+            $group_chat->save();
+            return response()->json($group_chat);
+        }
+        $message->save();
+        return response()->json($message);
+        // TODO: Add Pusher.com Calls
+    }
+
+    public function getGroupMessage()
+    {
+        $user = Auth::user();
+        $group_chats = $user->groupChats;
+        return response()->json($group_chats);
+    }
+
+    public function addUserToGroupMessage(Request $request, $id)
+    {
+        $group_chat = GroupChat::findOrFail($id);
+        $user = User::findOrFail($request->user_id);
+        $message = Message::create([
+            'message' => $user->first_name . ' ' . $user->last_name . ' is added to the group chat!',
+            'sender_id' => $user->id,
+            'group_chat_id' => $group_chat->id,
+        ]);
+        return response()->json($message);
     }
 
     public function myMessages()

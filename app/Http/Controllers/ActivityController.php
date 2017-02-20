@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\GroupChat;
 use App\Http\Controllers\Controller;
 use App\Transformers\ActivityTransformer;
 use Illuminate\Http\Request;
@@ -52,7 +53,7 @@ class ActivityController extends Controller
 
     public function store(Request $request)
     {
-        if($activity = Activity::create($request->all())) {   
+        if($activity = Activity::create($request->all())) {
             $resource = new Item($activity, new ActivityTransformer());
             $activity->users()->attach($request->user_id);
             $data = $this->fractal->createData($resource)->toArray();
@@ -60,6 +61,9 @@ class ActivityController extends Controller
                 "message" => "Activity Created",
                 "activity" => $data,
             ];
+            GroupChat::create([
+
+            ]);
             return response()->json($response);
         }
     }

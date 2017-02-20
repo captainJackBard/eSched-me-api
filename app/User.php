@@ -124,4 +124,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return $this->hasMany('App\PrivateMessage', 'receiver_id');
     }
+
+    public function groupChats()
+    {
+        return $this->hasManyThrough('App\GroupChat', 'App\Message', 'sender_id', 'message_id', 'id');
+    }
 }

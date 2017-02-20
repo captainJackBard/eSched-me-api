@@ -46,6 +46,7 @@ class ModuleController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
         $message = "";
         $module = null;
         if($module = Module::create($request->all())) {
