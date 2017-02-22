@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Events\ChatEvent;
 use App\GroupChat;
 use App\Message;
@@ -81,6 +82,7 @@ class ChatController extends Controller
             $group_name = $request->input('group_name');
             $group_chat = GroupChat::create();
             $message->group_chat_id = $group_chat->id;
+            $message->sender_id = -1;
             $message->save();
             $group_chat->group_name = $group_name;
             $group_chat->message_id = $message->id;
@@ -95,8 +97,23 @@ class ChatController extends Controller
     public function getGroupMessage()
     {
         $user = Auth::user();
-        $group_chats = $user->groupChats;
-        return response()->json($group_chats);
+        $chats = [];
+        $user->acceptedActivities->each(function ($activity) use (&$chats) {
+            $chats[] = $activity->groupChat;
+        });
+        $user_activities = Activity::where('user_id', $user->id)->get();
+        $user_activities->each(function ($activity) use (&$chats) {
+            $chats[] = $activity->groupChat;
+        });
+        return response()->json($chats);
+    }
+
+    public function getGroupMessageDetails($id)
+    {
+        $user = Auth::user();
+        $group_chat = GroupChat::findOrFail($id)->first();
+        $messages = $group_chat->messages;
+        return response()->json($messages);
     }
 
     public function addUserToGroupMessage(Request $request, $id)

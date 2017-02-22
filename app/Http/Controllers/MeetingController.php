@@ -32,8 +32,11 @@ class MeetingController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $locations = Location::all();
-        $resource = new Collection($locations, new LocationTransformer());
+        $meetings = collect([]);
+        $user->activities->each(function ($activity) use (&$meetings) {
+            $meetings = $meetings->merge($activity->locations);
+        });
+        $resource = new Collection($meetings, new LocationTransformer());
         $data = $this->fractal->createData($resource)->toArray();
         return response()->json($data);
     }

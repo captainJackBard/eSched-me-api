@@ -38,4 +38,9 @@ class Activity extends Model
     public function locations() {
         return $this->hasMany('App\Location');
     }
+
+    public function groupChat()
+    {
+        return $this->hasOne('App\GroupChat', 'activity_id');
+    }
 }

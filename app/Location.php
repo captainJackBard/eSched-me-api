@@ -22,6 +22,6 @@ class Location extends Model
 
     public function activity()
     {
-        return $this->belongsTo('App\Activity');
+        return $this->belongsTo('App\Activity', 'activity_id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Activity;
 use App\GroupChat;
 use App\Http\Controllers\Controller;
+use App\Message;
 use App\Transformers\ActivityTransformer;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
@@ -61,9 +62,17 @@ class ActivityController extends Controller
                 "message" => "Activity Created",
                 "activity" => $data,
             ];
-            GroupChat::create([
-
+            $group_chat = GroupChat::create([
+                "group_name" => $request->input('title'),
+                "activity_id" => $activity->id,
             ]);
+            $message = Message::create([
+                "message" => "Group Chat Created!",
+                "group_chat_id" => $group_chat->id,
+                "sender_id" => -1,
+            ]);
+            $activity->group_chat_id = $group_chat->id;
+            $activity->save();
             return response()->json($response);
         }
     }
@@ -110,7 +119,13 @@ class ActivityController extends Controller
     public function tag(Request $request, $id)
     {
         $activity = Activity::findOrFail($id);
-        $activity->users()->attach($request->user_id);
+        $activity->users()->attach($request->user_id, ['status' => 'pending']);
+        $user = \App\User::findOrFail($request->user_id)->first();
+        $message = Message::create([
+            "message" => $user->first_name . ' ' . $user->last_name . ' Added to Group Chat',
+            "group_chat_id" => $activity->groupChat->id,
+            "sender_id" => -1,
+        ]);
         $data = fractal()->item($activity, new ActivityTransformer())->includeTagged()->toArray();
         $response = [
             "message" => "User tagged!",
@@ -129,5 +144,13 @@ class ActivityController extends Controller
             "activity" => $data,
         ];
         return response()->json($response);
+    }
+
+    public function approveTag($id)
+    {
+        $user = Auth::user();
+        $activity = Activity::findOrFail($id);
+        $activity->users()->sync([$user->id => ['status' => 'accepted']], false);
+        return response()->json(['message' => 'Tag Approved!']);
     }
 }

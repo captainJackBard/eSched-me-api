@@ -42,6 +42,7 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
     $app->group(['prefix' => 'group'], function ($app) {
         $app->post('/message', 'ChatController@groupMessage');
         $app->get('/message', 'ChatController@getGroupMessage');
+        $app->get('/message/{id}', 'ChatController@getGroupMessageDetails');
         $app->post('/message/{id}/add', 'ChatController@addUserToGroupMessage');
     });
 
@@ -60,6 +61,7 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->delete('/{id}', 'ActivityController@delete');
         $app->post('/{id}/tag', 'ActivityController@tag');
         $app->post('/{id}/untag', 'ActivityController@untag');
+        $app->post('/{id}/approve', 'ActivityController@approveTag');
     });
 
     $app->group(['prefix' => 'meeting'], function ($app) {

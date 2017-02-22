@@ -19,10 +19,16 @@ class GroupChat extends Model
     protected $fillable = [
         'id',
         'group_name',
+        'activity_id',
     ];
 
     public function messages()
     {
         return $this->hasMany('App\Message');
+    }
+
+    public function project()
+    {
+        return $this->hasOne('App\Activity', 'id');
     }
 }
