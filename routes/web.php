@@ -34,6 +34,9 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->post('/approve/{id}', 'UserController@approve');
         $app->post('/unfriend/{id}', 'UserController@remove');
         $app->post('/add/{id}', 'UserController@add');
+        $app->get('/pending_activity_tags', 'ActivityController@getPendingActivityTags');
+        $app->post('/pending_activity_tags/approve/{id}', 'ActivityController@approveTag');
+
 
         $app->get('/messages', 'ChatController@myMessages');
         $app->get('/messages/{id}', 'ChatController@showMessageThread');

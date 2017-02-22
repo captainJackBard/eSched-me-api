@@ -153,4 +153,11 @@ class ActivityController extends Controller
         $activity->users()->sync([$user->id => ['status' => 'accepted']], false);
         return response()->json(['message' => 'Tag Approved!']);
     }
+
+    public function getPendingActivityTags()
+    {
+        $user = Auth::user();
+        $pending_tags = $user->pendingActivitiesTag;
+        return response()->json($pending_tags);
+    }
 }

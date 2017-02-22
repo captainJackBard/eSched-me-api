@@ -45,6 +45,13 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
             ->withPivot('status');
     }
 
+    public function pendingActivitiesTag()
+    {
+        return $this->belongsToMany('App\Activity', 'activity_tags', 'friend_id', 'activity_id')
+            ->wherePivot('status', 'pending')
+            ->withPivot('status');
+    }
+
     public function modules()
     {
         return $this->belongsToMany('\App\User', 'module_tags', 'friend_id', 'module_id');
