@@ -27,7 +27,9 @@ class Activity extends Model
 
     public function users()
     {
-        return $this->belongsToMany('\App\User', 'activity_tags', 'activity_id', 'friend_id');
+        return $this->belongsToMany('\App\User', 'activity_tags', 'activity_id', 'friend_id')
+            ->wherePivot('status', 'accepted')
+            ->withPivot('status');;
     }
 
     public function modules()

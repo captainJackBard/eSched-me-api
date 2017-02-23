@@ -36,6 +36,7 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->post('/add/{id}', 'UserController@add');
         $app->get('/pending_activity_tags', 'ActivityController@getPendingActivityTags');
         $app->post('/pending_activity_tags/approve/{id}', 'ActivityController@approveTag');
+        $app->post('/pending_activity_tags/decline/{id}', 'ActivityController@declineTag');
 
 
         $app->get('/messages', 'ChatController@myMessages');
@@ -68,6 +69,7 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
     });
 
     $app->group(['prefix' => 'meeting'], function ($app) {
+        $app->get('/activity/{activity_id}', 'MeetingController@showByActivity');
         $app->get('/', 'MeetingController@index');
         $app->post('/', 'MeetingController@store');
         $app->get('/{id}', 'MeetingController@show');

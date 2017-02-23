@@ -154,6 +154,14 @@ class ActivityController extends Controller
         return response()->json(['message' => 'Tag Approved!']);
     }
 
+    public function declineTag($id)
+    {
+        $user = Auth::user();
+        $activity = Activity::findOrFail($id);
+        $activity->users()->detach($user->id);
+        return response()->json(['message' => 'Tag Declined!']);
+    }
+
     public function getPendingActivityTags()
     {
         $user = Auth::user();

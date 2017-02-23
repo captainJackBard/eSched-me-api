@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Location;
 use App\Http\Controllers\Controller;
 use App\Transformers\LocationTransformer;
@@ -51,6 +52,17 @@ class MeetingController extends Controller
             return response()->json($data);
         }
 
+        return response()->json('Unauthorized', 401);
+    }
+
+    public function showByActivity($activity_id)
+    {
+        $user = Auth::user();
+        $activity = Activity::where('id', $activity_id)->firstOrFail();
+        if ($activity->users->contains('id', $user->id)) {
+            $meetings = $activity->locations;
+            return response()->json($meetings);
+        }
         return response()->json('Unauthorized', 401);
     }
 
