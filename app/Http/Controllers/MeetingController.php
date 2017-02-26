@@ -61,7 +61,9 @@ class MeetingController extends Controller
         $activity = Activity::where('id', $activity_id)->firstOrFail();
         if ($activity->users->contains('id', $user->id)) {
             $meetings = $activity->locations;
-            return response()->json($meetings);
+            $resource = new Collection($meetings, new LocationTransformer());
+            $data = $this->fractal->createData($resource)->toArray();
+            return response()->json(current($data));
         }
         return response()->json('Unauthorized', 401);
     }
