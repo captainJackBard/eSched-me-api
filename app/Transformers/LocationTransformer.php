@@ -23,6 +23,7 @@ class LocationTransformer extends Fractal\TransformerAbstract
             'activty_id' => $meeting->activity_id,
             'project_name' => $meeting->activity->title,
             'agenda' => $meeting->agenda,
+            'title' => $meeting->title,
             'location' => $meeting->location,
             'long' => $meeting->long,
             'lat' => $meeting->lat,

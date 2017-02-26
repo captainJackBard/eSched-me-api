@@ -13,6 +13,8 @@ class Location extends Model
     protected $fillable = [
         'id',
         'activity_id',
+        'agenda',
+        'title',
         'location',
         'long',
         'lat',
