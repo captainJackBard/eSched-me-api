@@ -37,6 +37,7 @@ class ActivityTransformer extends Fractal\TransformerAbstract
 			'id' => $activity->id,
             'title' => $activity->title,
             'desc' => $activity->desc,
+            'risk' => $activity->risk,
             'status' => $activity->status,
             'budget' => $activity->budget,
             'vendor' => $activity->vendor,

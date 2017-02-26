@@ -15,6 +15,7 @@ class Activity extends Model
         'user_id', 
         'title', 
         'desc',
+        'risk',
         'budget',
         'vendor',
         'start', 
