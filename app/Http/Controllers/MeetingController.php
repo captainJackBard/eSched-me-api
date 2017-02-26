@@ -35,7 +35,7 @@ class MeetingController extends Controller
         $user = Auth::user();
         $meetings = collect([]);
         $user->activities->each(function ($activity) use (&$meetings) {
-            $meetings = $meetings->merge($activity->locations);
+            $meetings = $meetings->merge($activity->activeMeetings);
         });
         $resource = new Collection($meetings, new LocationTransformer());
         $data = $this->fractal->createData($resource)->toArray();

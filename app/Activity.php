@@ -29,7 +29,7 @@ class Activity extends Model
     {
         return $this->belongsToMany('\App\User', 'activity_tags', 'activity_id', 'friend_id')
             ->wherePivot('status', 'accepted')
-            ->withPivot('status');;
+            ->withPivot('status');
     }
 
     public function modules()
@@ -39,6 +39,10 @@ class Activity extends Model
 
     public function locations() {
         return $this->hasMany('App\Location');
+    }
+
+    public function activeMeetings() {
+        return $this->hasMany('App\Location')->where('status', '!=', 'expired')->where('status', '!=', 'completed');
     }
 
     public function groupChat()
