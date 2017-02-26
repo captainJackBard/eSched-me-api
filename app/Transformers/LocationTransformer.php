@@ -22,6 +22,7 @@ class LocationTransformer extends Fractal\TransformerAbstract
             'id' => $meeting->id,
             'activty_id' => $meeting->activity_id,
             'project_name' => $meeting->activity->title,
+            'agenda' => $meeting->agenda,
             'location' => $meeting->location,
             'long' => $meeting->long,
             'lat' => $meeting->lat,
@@ -33,7 +34,7 @@ class LocationTransformer extends Fractal\TransformerAbstract
     public function includeActivity(Location $location)
     {
         $activity = $location->activity;
-        return $this->collection($activity, new ActivityTransformer());
+        return $this->item($activity, new ActivityTransformer());
     }
 
 }
