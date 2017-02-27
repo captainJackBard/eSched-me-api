@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
+use Auth;
 
 class ModuleController extends Controller
 {
