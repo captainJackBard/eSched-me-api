@@ -101,10 +101,6 @@ class ChatController extends Controller
         $user->acceptedActivities->each(function ($activity) use (&$chats) {
             $chats[] = $activity->groupChat;
         });
-        $user_activities = Activity::where('user_id', $user->id)->get();
-        $user_activities->each(function ($activity) use (&$chats) {
-            $chats[] = $activity->groupChat;
-        });
         return response()->json($chats);
     }
 
