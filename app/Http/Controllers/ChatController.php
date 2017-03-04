@@ -77,7 +77,7 @@ class ChatController extends Controller
         $message->sender_id = $sender->id;
         if($request->input('group_chat_id')) {
             $group_chat = GroupChat::findOrFail($request->input('group_chat_id'));
-            $message->grouo_chat_id = $group_chat->id;
+            $message->group_chat_id = $group_chat->id;
         } else if($request->input('group_name')){
             $group_name = $request->input('group_name');
             $group_chat = GroupChat::create();
@@ -107,7 +107,7 @@ class ChatController extends Controller
     public function getGroupMessageDetails($id)
     {
         $user = Auth::user();
-        $group_chat = GroupChat::findOrFail($id)->first();
+        $group_chat = GroupChat::findOrFail($id);
         $messages = $group_chat->messages;
         return response()->json($messages);
     }
