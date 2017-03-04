@@ -70,40 +70,45 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function friends()
     {
         return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id')
-            ->withPivot('status');
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
     public function otherFriends()
     {
         return $this->belongsToMany('App\User', 'relationship', 'friend_id', 'user_id')
-            ->withPivot('status');
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
     public function friendsOfMine()
     {
         return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id')
             ->wherePivot('status', '=', 'accepted')
-            ->withPivot('status');
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
     public function friendOf()
     {
         return $this->belongsToMany('App\User', 'relationship', 'friend_id', 'user_id')
             ->wherePivot('status', '=', 'accepted')
-            ->withPivot('status');
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
     public function myRequests()
     {
         return $this->belongsToMany('App\User', 'relationship', 'user_id', 'friend_id')
             ->wherePivot('status', '!=', 'accepted')
-            ->withPivot('status');
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
     public function requestOf()
     {
         return $this->belongsToMany('App\User', 'relationship', 'friend_id', 'user_id')
-            ->wherePivot('status', '!=', 'accepted')
+            ->wherePivot('status', '!=', 'Accepted')
             ->withPivot('status')
             ->withTimestamps();
     }

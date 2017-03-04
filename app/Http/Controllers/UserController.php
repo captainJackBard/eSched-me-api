@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
+use Carbon;
 
 use Auth;
 
@@ -136,7 +137,9 @@ class UserController extends Controller
 			"data" => $requests,
 		];
 		$update_requests = $user->requestOf();
-		$update_requests->rawUpdate(['relationship.status' => 'seen', 'modified' => null]);
+		$user->requestOf()->each(function($req) use ($user) {
+			$user->requestOf()->updateExistingPivot($req->user_id, ['status' => 'Seen']);
+		});
 		return response()->json($response);
 	}
 
