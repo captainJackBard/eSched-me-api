@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Events\ChatEvent;
+use App\Events\GroupChatEvent;
 use App\GroupChat;
 use App\Message;
 use App\Transformers\MessageTransformer;
@@ -90,6 +91,7 @@ class ChatController extends Controller
             return response()->json($group_chat);
         }
         $message->save();
+        event(new GroupChatEvent($message));
         return response()->json($message);
         // TODO: Add Pusher.com Calls
     }
