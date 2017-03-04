@@ -24,8 +24,23 @@ class Message extends Model
         'group_chat_id'
     ];
 
+    protected $appends = [
+        'user'
+    ];
+
     public function group()
     {
         return $this->belongsTo('App\GroupChat');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'sender_id');
+    }
+
+    public function getUserAttribute($value)
+    {
+        $user = User::findOrFail($this->sender_id);
+        return $user;
     }
 }
