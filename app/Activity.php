@@ -32,6 +32,13 @@ class Activity extends Model
             ->withPivot('status');
     }
 
+    public function pendingUsers()
+    {
+        return $this->belongsToMany('\App\User', 'activity_tags', 'activity_id', 'friend_id')
+            ->wherePivot('status', 'pending')
+            ->withPivot('status');
+    }
+
     public function modules()
     {
         return $this->hasMany('App\Module');

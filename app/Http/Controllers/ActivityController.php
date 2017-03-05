@@ -150,7 +150,7 @@ class ActivityController extends Controller
     {
         $user = Auth::user();
         $activity = Activity::findOrFail($id);
-        $activity->users()->sync([$user->id => ['status' => 'accepted']], false);
+        $activity->pendingUsers()->updateExistingPivot($user->id, ['status' => 'accepted']);
         return response()->json(['message' => 'Tag Approved!']);
     }
 
