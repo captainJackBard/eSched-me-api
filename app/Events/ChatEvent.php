@@ -27,7 +27,8 @@ class ChatEvent extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        $channel_id = $this->message->parent_id ? $this->message->parent_id : $this->message->id;
         // TODO: Implement broadcastOn() method.
-        return ['message.'.$this->message->receiver_id];
+        return ['message.' . $channel_id];
     }
 }

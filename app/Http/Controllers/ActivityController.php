@@ -158,7 +158,7 @@ class ActivityController extends Controller
     {
         $user = Auth::user();
         $activity = Activity::findOrFail($id);
-        $activity->users()->detach($user->id);
+        $activity->pendingUsers()->detach($user->id);
         return response()->json(['message' => 'Tag Declined!']);
     }
 

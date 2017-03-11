@@ -29,6 +29,7 @@ class MessageTransformer extends Fractal\TransformerAbstract
             'sender_id' => $msg->sender_id,
             'receiver_id' => $msg->receiver_id,
             'message' => $msg->message,
+            'parent_id' => $msg->parent_id,
             'created' => (string)$msg->created,
         ];
     }
