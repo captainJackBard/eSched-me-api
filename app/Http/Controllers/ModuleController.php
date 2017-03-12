@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Module;
+use App\Notification;
 use App\Http\Controllers\Controller;
 use App\Transformers\ModuleTransformer;
 use Illuminate\Http\Request;
@@ -52,6 +53,16 @@ class ModuleController extends Controller
         $module = null;
         if($module = Module::create($request->all())) {
             $message = "Module created!";
+            $module->activity->users->each(function($user) use ($module) {
+                if($user->id !== $module->activity->user_id) {
+                    Notification::create([
+                        "user_id" => $user->id,
+                        "link" => "https://esched.me/activities/getModules/" . $module->activity->id,
+                        "message" => "Module has been created!",
+                        "status" => "pending"
+                    ]);
+                }
+            });
             return response()->json($module);
         } else {
             $message = "Error Module not Created!";

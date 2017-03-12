@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
+use App\Notification;
 
 class SubmoduleController extends Controller
 {
@@ -49,6 +50,16 @@ class SubmoduleController extends Controller
         $submodule = null;
         if($submodule = SubModule::create($request->all())) {
             $message = "Submodule created!";
+            $submodule->module->activity->users->each(function($user) use ($submodule) {
+                if($user->id !== $submodule->module->activity->user_id) {
+                    Notification::create([
+                        "user_id" => $user->id,
+                        "link" => "https://esched.me/activities/sub_modules/" . $submodule->module->activity->id . '/' . $submodule->module->id,
+                        "message" => "Submodule has been created!",
+                        "status" => "pending"
+                    ]);
+                }
+            });
         } else {
             $message = "Error Submodule not Created!";
         }

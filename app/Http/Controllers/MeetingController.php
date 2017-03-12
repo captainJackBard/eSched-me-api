@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Location;
+use App\Notification;
 use App\Http\Controllers\Controller;
 use App\Transformers\LocationTransformer;
 use Illuminate\Http\Request;
@@ -73,10 +74,20 @@ class MeetingController extends Controller
         $message = "";
         $meeting = null;
         if($meeting = Location::create($request->all())) {
-            $message = "Module created!";
+            $message = "Meeting created!";
+            $meeting->activity->users->each(function($user) use ($meeting) {
+                if($user->id !== $meeting->activity->user_id) {
+                    Notification::create([
+                        "user_id" => $user->id,
+                        "link" => "https://esched.me/activities/getLocations/" . $meeting->activity->id,
+                        "message" => "Meeting has been created!",
+                        "status" => "pending"
+                    ]);
+                }
+            });
             return response()->json($meeting);
         } else {
-            $message = "Error Module not Created!";
+            $message = "Error Meeting not Created!";
         }
         $data = fractal()->collection($meeting, new LocationTransformer())->toArray();
         return response()->json($message);
