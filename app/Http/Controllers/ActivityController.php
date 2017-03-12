@@ -99,7 +99,7 @@ class ActivityController extends Controller
 
         $resource = new Item($activity, new ActivityTransformer());
         $data = $this->fractal->createData($resource)->toArray();
-
+        $group_chat = GroupChat::where('activity_id', $activity->id)->delete();
         if($activity->delete()) {
             $response = [
                 "message" => "Activity Deleted!",
