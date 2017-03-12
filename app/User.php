@@ -148,4 +148,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return $this->hasManyThrough('App\GroupChat', 'App\Message', 'sender_id', 'id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany('App\Notification');
+    }
 }

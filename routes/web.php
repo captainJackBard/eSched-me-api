@@ -89,6 +89,13 @@ $app->group(['prefix' => 'api/v1', 'middleware' => ['auth:api', 'jwt.auth']], fu
         $app->post('/{id}/untag', 'ModuleController@untag');
     });
 
+    // Notifications Route Group
+    $app->group(['prefix' => 'notifications'], function($app) {
+        $app->get('/', 'NotificationController@index');
+        $app->delete('/{id}', 'NotificationController@delete');
+        $app->delete('/', 'NotificationController@deleteAll');
+    });
+
     // Submodules Route Group
     $app->group(['prefix' => 'submodule'], function($app) {
         $app->get('/', 'SubmoduleController@index');
