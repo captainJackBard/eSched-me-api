@@ -61,6 +61,8 @@ class UserController extends Controller
 		$user->skills = $request->input('skills');
 		$user->about_me = $request->input('about_me');
 		$user->occupation = $request->input('occupation');
+		$user->question = $request->input('question');
+		$user->answer = $request->input('answer');
 		if($user->save()) {
 			return response()->json(['Your information is updated successfully!']);
 		}
